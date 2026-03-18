@@ -54,28 +54,48 @@
             </p>
           </section>
 
-          <aside class="info-stack" aria-label="Resumo do lobby">
-            <article class="status-card">
-              <span class="status-card__label">Jogadores online</span>
-              <strong id="onlineCount">12.480</strong>
-              <small>Distribuídos em 37 salas ativas</small>
+          <section class="stage-column" aria-label="Palco central 3D do lobby">
+            <article class="stage-card">
+              <div class="stage-card__header">
+                <div>
+                  <span class="status-card__label">Palco central</span>
+                  <strong>Lobby 3D em tempo real</strong>
+                </div>
+                <small>Avatar • plataforma • ambientação</small>
+              </div>
+
+              <div class="scene-frame">
+                <div class="scene-layer" id="scene3d" aria-hidden="true"></div>
+                <div class="scene-frame__hud">
+                  <span>Render ao vivo</span>
+                  <span id="sceneMode">Modo contemplativo</span>
+                </div>
+              </div>
             </article>
 
-            <article class="status-card">
-              <span class="status-card__label">Sala simulada</span>
-              <strong>EU-West / Neon Atrium</strong>
-              <small id="roomStatus">4 vagas livres • matchmaking casual</small>
-            </article>
+            <aside class="info-stack" aria-label="Resumo do lobby">
+              <article class="status-card">
+                <span class="status-card__label">Jogadores online</span>
+                <strong id="onlineCount">12.480</strong>
+                <small>Distribuídos em 37 salas ativas</small>
+              </article>
 
-            <article class="status-card">
-              <span class="status-card__label">Leitura do ambiente</span>
-              <ul class="telemetry-list">
-                <li><span>Iluminação</span><strong>Suave</strong></li>
-                <li><span>Avatar</span><strong>Idle</strong></li>
-                <li><span>Câmera</span><strong>Orbital</strong></li>
-              </ul>
-            </article>
-          </aside>
+              <article class="status-card">
+                <span class="status-card__label">Sala simulada</span>
+                <strong>EU-West / Neon Atrium</strong>
+                <small id="roomStatus">4 vagas livres • matchmaking casual</small>
+              </article>
+
+              <article class="status-card">
+                <span class="status-card__label">Leitura do ambiente</span>
+                <ul class="telemetry-list">
+                  <li><span>Iluminação</span><strong>Suave</strong></li>
+                  <li><span>Avatar</span><strong>Idle</strong></li>
+                  <li><span>Câmera</span><strong>Orbital</strong></li>
+                </ul>
+              </article>
+            </aside>
+          </section>
         </div>
       </div>
 
