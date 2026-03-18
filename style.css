@@ -283,10 +283,11 @@ button {
   min-height: 520px;
   border-radius: 24px;
   overflow: hidden;
-  border: 1px solid rgba(150, 194, 255, 0.18);
+  border: 1px solid rgba(150, 194, 255, 0.24);
   background:
-    radial-gradient(circle at 50% 12%, rgba(121, 168, 255, 0.16), transparent 26%),
-    linear-gradient(180deg, #050b18 0%, #07101f 60%, #030711 100%);
+    radial-gradient(circle at 50% 12%, rgba(121, 168, 255, 0.2), transparent 26%),
+    linear-gradient(180deg, #08111f 0%, #091426 60%, #040814 100%);
+  box-shadow: inset 0 0 80px rgba(121, 168, 255, 0.08);
 }
 
 .scene-frame::before,
@@ -313,12 +314,44 @@ button {
   position: absolute;
   inset: 0;
   z-index: 0;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .scene-layer canvas {
   width: 100%;
   height: 100%;
   display: block;
+}
+
+.scene-placeholder {
+  position: absolute;
+  inset: auto 18px 62px 18px;
+  z-index: 2;
+  display: grid;
+  gap: 8px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(150, 194, 255, 0.18);
+  background: rgba(5, 11, 24, 0.72);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+  pointer-events: none;
+  transition: opacity 0.24s ease, transform 0.24s ease;
+}
+
+.scene-placeholder strong {
+  font-size: 1rem;
+}
+
+.scene-placeholder span {
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
+.scene-frame.is-ready .scene-placeholder {
+  opacity: 0;
+  transform: translateY(8px);
 }
 
 .scene-frame__hud {
@@ -427,7 +460,7 @@ body.is-customize-open .action-button--ghost#customizeBtn {
 }
 
 body.is-playing .scene-frame {
-  box-shadow: inset 0 0 0 1px rgba(120, 246, 215, 0.22), 0 24px 60px rgba(0, 0, 0, 0.42);
+  box-shadow: inset 0 0 0 1px rgba(120, 246, 215, 0.22), 0 24px 60px rgba(0, 0, 0, 0.42), 0 0 42px rgba(120, 246, 215, 0.08);
 }
 
 @media (max-width: 1080px) {

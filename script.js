@@ -11,6 +11,8 @@ const panelTitle = document.getElementById("panelTitle");
 const panelText = document.getElementById("panelText");
 const closePanelButton = document.getElementById("closePanel");
 const sceneMode = document.getElementById("sceneMode");
+const sceneFrame = document.getElementById("sceneFrame");
+const scenePlaceholder = document.getElementById("scenePlaceholder");
 
 const uiState = {
   onlinePlayers: 12480,
@@ -34,6 +36,23 @@ function setSceneMode(label) {
 
   if (sceneMode) {
     sceneMode.textContent = label;
+  }
+}
+
+function setScenePlaceholder(title, description) {
+  if (!scenePlaceholder) {
+    return;
+  }
+
+  const titleNode = scenePlaceholder.querySelector("strong");
+  const descriptionNode = scenePlaceholder.querySelector("span");
+
+  if (titleNode) {
+    titleNode.textContent = title;
+  }
+
+  if (descriptionNode) {
+    descriptionNode.textContent = description;
   }
 }
 
@@ -138,16 +157,18 @@ function attachUi() {
 function buildScene() {
   if (!sceneHost || !window.THREE) {
     setFeedback("Modo seguro ativo: interface disponível, mas a biblioteca 3D não foi carregada.");
+    setScenePlaceholder("Render 3D indisponível", "A interface continua funcional, mas a biblioteca de renderização não foi encontrada.");
     return;
   }
 
   const THREE = window.THREE;
 
   function getSceneSize() {
-    const rect = sceneHost.getBoundingClientRect();
+    const hostRect = sceneHost.getBoundingClientRect();
+    const frameRect = sceneFrame ? sceneFrame.getBoundingClientRect() : { width: 0, height: 0 };
     return {
-      width: Math.max(rect.width || window.innerWidth || 1, 1),
-      height: Math.max(rect.height || window.innerHeight || 1, 1),
+      width: Math.max(hostRect.width, frameRect.width, 320),
+      height: Math.max(hostRect.height, frameRect.height, 320),
     };
   }
 
@@ -161,19 +182,21 @@ function buildScene() {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false, powerPreference: "high-performance" });
   } catch (error) {
     setFeedback("Modo seguro ativo: o navegador não disponibilizou WebGL, mas a interface do lobby continua funcional.");
+    setScenePlaceholder("WebGL indisponível", "Não foi possível criar o renderer 3D neste navegador, mas os painéis do lobby continuam funcionando.");
     return;
   }
 
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.8));
-  renderer.setSize(size.width, size.height);
+  renderer.setSize(size.width, size.height, false);
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.setClearColor(0x050b16, 1);
-  sceneHost.appendChild(renderer.domElement);
+  renderer.setClearColor(0x07111f, 1);
+  renderer.domElement.setAttribute("aria-hidden", "true");
+  sceneHost.replaceChildren(renderer.domElement);
 
-  const camera = new THREE.PerspectiveCamera(40, size.width / size.height, 0.1, 120);
-  const cameraTarget = new THREE.Vector3(0, 1.8, 0);
+  const camera = new THREE.PerspectiveCamera(38, size.width / size.height, 0.1, 120);
+  const cameraTarget = new THREE.Vector3(0, 1.9, 0);
 
-  const ambientLight = new THREE.AmbientLight(0x89a7ff, 0.95);
+  const ambientLight = new THREE.AmbientLight(0x95b1ff, 1.1);
   scene.add(ambientLight);
 
   const keyLight = new THREE.SpotLight(0xb8cbff, 3.2, 40, 0.55, 0.45, 1.2);
@@ -182,11 +205,11 @@ function buildScene() {
   scene.add(keyLight);
   scene.add(keyLight.target);
 
-  const fillLight = new THREE.PointLight(0x7cf0d4, 2.4, 24, 2);
+  const fillLight = new THREE.PointLight(0x7cf0d4, 2.8, 26, 2);
   fillLight.position.set(-4.8, 3.5, -2.8);
   scene.add(fillLight);
 
-  const backLight = new THREE.PointLight(0x5f7cff, 1.8, 20, 2);
+  const backLight = new THREE.PointLight(0x5f7cff, 2.1, 24, 2);
   backLight.position.set(0, 4.2, -6.8);
   scene.add(backLight);
 
@@ -282,6 +305,23 @@ function buildScene() {
   innerRing.rotation.x = Math.PI * 0.5;
   innerRing.position.y = 0.5;
   scene.add(innerRing);
+
+  const debugBeacon = new THREE.Mesh(
+    new THREE.BoxGeometry(0.64, 0.64, 0.64),
+    new THREE.MeshStandardMaterial({
+      color: 0xff8cc6,
+      emissive: 0xff5db2,
+      emissiveIntensity: 1.25,
+      roughness: 0.18,
+      metalness: 0.36,
+    })
+  );
+  debugBeacon.position.set(0, 3.85, 0);
+  scene.add(debugBeacon);
+
+  const debugLight = new THREE.PointLight(0xff78bb, 2.2, 10, 2);
+  debugLight.position.set(0, 4.1, 0.6);
+  scene.add(debugLight);
 
   const avatar = new THREE.Group();
   const avatarBodyMaterial = new THREE.MeshStandardMaterial({
@@ -439,10 +479,10 @@ function buildScene() {
 
   function updateCamera(elapsed) {
     const focusMix = THREE.MathUtils.lerp(0.22, 1, sceneState.focus);
-    const orbitRadius = THREE.MathUtils.lerp(9.4, 7.3, focusMix);
+    const orbitRadius = THREE.MathUtils.lerp(8.4, 6.6, focusMix);
     const angle = elapsed * (0.18 + sceneState.focus * 0.04);
-    const y = THREE.MathUtils.lerp(4.1, 3.2, focusMix) + Math.sin(elapsed * 0.6) * 0.12;
-    camera.position.set(Math.sin(angle) * orbitRadius, y, Math.cos(angle) * orbitRadius + 0.85);
+    const y = THREE.MathUtils.lerp(3.9, 3.05, focusMix) + Math.sin(elapsed * 0.6) * 0.12;
+    camera.position.set(Math.sin(angle) * orbitRadius, y, Math.cos(angle) * orbitRadius + 0.55);
     camera.lookAt(cameraTarget);
   }
 
@@ -450,7 +490,7 @@ function buildScene() {
     const nextSize = getSceneSize();
     camera.aspect = nextSize.width / nextSize.height;
     camera.updateProjectionMatrix();
-    renderer.setSize(nextSize.width, nextSize.height);
+    renderer.setSize(nextSize.width, nextSize.height, false);
   }
 
   window.addEventListener("resize", resizeScene);
@@ -469,6 +509,10 @@ function buildScene() {
 
     outerRing.rotation.z = elapsed * 0.22;
     innerRing.rotation.z = -elapsed * 0.34;
+    debugBeacon.rotation.x = elapsed * 0.9;
+    debugBeacon.rotation.y = elapsed * 1.4;
+    debugBeacon.position.y = 3.85 + Math.sin(elapsed * 1.9) * 0.14;
+    debugLight.intensity = 2 + Math.sin(elapsed * 2.1) * 0.2 + sceneState.boost * 0.3;
     outerRing.material.opacity = 0.84 + sceneState.boost * 0.12 + Math.sin(elapsed * 2.2) * 0.04;
     innerRing.material.opacity = 0.78 + sceneState.boost * 0.16;
 
@@ -502,9 +546,16 @@ function buildScene() {
   }
 
   updateCamera(0);
+  renderer.render(scene, camera);
+
+  if (sceneFrame) {
+    sceneFrame.classList.add("is-ready");
+  }
+
+  setScenePlaceholder("Render 3D ativo", "Plataforma, avatar e beacon de depuração visíveis no palco central.");
   animate();
   setSceneMode("Modo contemplativo");
-  setFeedback("Lobby 3D carregado. Plataforma central, avatar e ambientação visíveis no palco principal.");
+  setFeedback("Lobby 3D carregado. Plataforma central, avatar, beacon de depuração e ambientação visíveis no palco principal.");
 }
 
 attachUi();
