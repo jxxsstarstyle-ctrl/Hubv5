@@ -14,6 +14,7 @@
   <main class="lobby-shell">
     <section class="lobby-stage" aria-labelledby="lobby-title">
       <div class="scene-backdrop"></div>
+      <div class="scene-layer" id="scene3d" aria-hidden="true"></div>
       <div class="scene-overlay"></div>
 
       <div class="hud">
@@ -69,6 +70,8 @@
                   <strong>Inicializando render 3D...</strong>
                   <span>Preparando plataforma, avatar placeholder e ambientação do lobby.</span>
                 </div>
+              <div class="scene-frame">
+                <div class="scene-layer" id="scene3d" aria-hidden="true"></div>
                 <div class="scene-frame__hud">
                   <span>Render ao vivo</span>
                   <span id="sceneMode">Modo contemplativo</span>
