@@ -1,7 +1,8 @@
-const btn = document.getElementById("testBtn");
+const testButton = document.getElementById("testBtn");
 const status = document.getElementById("status");
 
-btn.addEventListener("click", () => {
-  status.textContent = "Tudo funcionando.";
-  console.log("JS carregado com sucesso.");
-});
+if (testButton && status) {
+  testButton.addEventListener("click", () => {
+    status.textContent = "Interação ativa: sua landing page está pronta para impressionar.";
+  });
+}

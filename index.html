@@ -3,16 +3,70 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meu App Codex</title>
+  <title>Hubv5 | Landing Page</title>
+  <meta
+    name="description"
+    content="Landing page estática, moderna e responsiva feita com HTML, CSS e JavaScript vanilla."
+  />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <main class="app">
-    <h1>Meu App Codex</h1>
-    <p>Projeto limpo para construir com Codex.</p>
-    <button id="testBtn">Testar</button>
-    <p id="status"></p>
+  <main class="page-shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero__content">
+        <span class="eyebrow">Projeto estático • GitHub Pages ready</span>
+        <h1 id="hero-title">Uma landing page moderna para apresentar sua ideia com clareza.</h1>
+        <p class="hero__subtitle">
+          Estrutura simples, visual refinado e carregamento leve para você publicar rápido sem build tools.
+        </p>
+
+        <div class="hero__actions">
+          <a class="button button--primary" href="#recursos">Ver recursos</a>
+          <button class="button button--secondary" id="testBtn" type="button">Testar interação</button>
+        </div>
+
+        <p class="hero__status" id="status" aria-live="polite">
+          Página pronta para edição e publicação.
+        </p>
+      </div>
+
+      <div class="hero__panel" aria-hidden="true">
+        <div class="panel-card">
+          <span class="panel-card__label">Destaque</span>
+          <strong>100% HTML, CSS e JavaScript vanilla</strong>
+          <p>Compatível com hospedagem estática e fácil de manter.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="features" id="recursos" aria-labelledby="features-title">
+      <div class="section-heading">
+        <span class="section-heading__eyebrow">Recursos principais</span>
+        <h2 id="features-title">Tudo o que você precisa em uma primeira dobra convincente.</h2>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <h3>Visual profissional</h3>
+          <p>Tipografia equilibrada, contraste agradável e composição responsiva para causar uma boa primeira impressão.</p>
+        </article>
+
+        <article class="card">
+          <h3>Estrutura enxuta</h3>
+          <p>Arquivos simples e organizados para facilitar testes rápidos, manutenção e publicação direta no GitHub Pages.</p>
+        </article>
+
+        <article class="card">
+          <h3>Interação leve</h3>
+          <p>JavaScript mínimo para reforçar a experiência sem depender de bibliotecas, frameworks ou ferramentas de build.</p>
+        </article>
+      </div>
+    </section>
   </main>
+
+  <footer class="footer">
+    <p>Feito para evoluir com simplicidade, desempenho e compatibilidade estática.</p>
+  </footer>
 
   <script src="./script.js"></script>
 </body>
