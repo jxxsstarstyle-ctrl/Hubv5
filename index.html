@@ -3,17 +3,122 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meu App Codex</title>
+  <title>Hubv5 | 3D Game Lobby</title>
+  <meta
+    name="description"
+    content="Protótipo de lobby 3D sci-fi leve, estático e compatível com GitHub Pages."
+  />
   <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <main class="app">
-    <h1>Meu App Codex</h1>
-    <p>Projeto limpo para construir com Codex.</p>
-    <button id="testBtn">Testar</button>
-    <p id="status"></p>
+  <main class="lobby-shell">
+    <section class="lobby-stage" aria-labelledby="lobby-title">
+      <div class="scene-backdrop"></div>
+      <div class="scene-overlay"></div>
+
+      <div class="hud">
+        <header class="hud__topbar">
+          <div>
+            <span class="hud__eyebrow">Sci-fi social hub</span>
+            <h1 id="lobby-title">Hubv5 Nexus Lobby</h1>
+            <p class="hud__subtitle">
+              Um lobby 3D leve para entrar, personalizar o avatar e explorar a próxima expansão do jogo.
+            </p>
+          </div>
+
+          <div class="status-card status-card--compact">
+            <span class="status-card__label">Status do piloto</span>
+            <strong id="playerStatus">Pronto para conexão</strong>
+            <small>Latência simulada: 18 ms</small>
+          </div>
+        </header>
+
+        <div class="hud__content">
+          <section class="command-panel" aria-label="Ações principais">
+            <div class="command-panel__glow"></div>
+            <span class="panel-kicker">Entrada principal</span>
+            <h2>Entre no hub e prepare seu esquadrão.</h2>
+            <p>
+              Visualize o lobby, acompanhe a atividade do servidor e teste a base de interface para futuras evoluções multiplayer.
+            </p>
+
+            <div class="command-panel__actions">
+              <button class="action-button action-button--primary" id="playBtn" type="button">Jogar agora</button>
+              <button class="action-button action-button--ghost" id="customizeBtn" type="button">Personalização</button>
+              <button class="action-button action-button--ghost" id="settingsBtn" type="button">Configurações</button>
+            </div>
+
+            <p class="command-panel__feedback" id="interactionFeedback" aria-live="polite">
+              Lobby inicializado. Ambiente 3D em modo de espera.
+            </p>
+          </section>
+
+          <section class="stage-column" aria-label="Palco central 3D do lobby">
+            <article class="stage-card">
+              <div class="stage-card__header">
+                <div>
+                  <span class="status-card__label">Palco central</span>
+                  <strong>Lobby 3D em tempo real</strong>
+                </div>
+                <small>Avatar • plataforma • ambientação</small>
+              </div>
+
+              <div class="scene-frame" id="sceneFrame">
+                <div class="scene-layer" id="scene3d" aria-hidden="true"></div>
+                <div class="scene-placeholder" id="scenePlaceholder" aria-live="polite">
+                  <strong>Inicializando render 3D...</strong>
+                  <span>Preparando plataforma, avatar placeholder e ambientação do lobby.</span>
+                </div>
+                <div class="scene-frame__hud">
+                  <span>Render ao vivo</span>
+                  <span id="sceneMode">Modo contemplativo</span>
+                </div>
+              </div>
+            </article>
+
+            <aside class="info-stack" aria-label="Resumo do lobby">
+              <article class="status-card">
+                <span class="status-card__label">Jogadores online</span>
+                <strong id="onlineCount">12.480</strong>
+                <small>Distribuídos em 37 salas ativas</small>
+              </article>
+
+              <article class="status-card">
+                <span class="status-card__label">Sala simulada</span>
+                <strong>EU-West / Neon Atrium</strong>
+                <small id="roomStatus">4 vagas livres • matchmaking casual</small>
+              </article>
+
+              <article class="status-card">
+                <span class="status-card__label">Leitura do ambiente</span>
+                <ul class="telemetry-list">
+                  <li><span>Iluminação</span><strong>Suave</strong></li>
+                  <li><span>Avatar</span><strong>Idle</strong></li>
+                  <li><span>Câmera</span><strong>Orbital</strong></li>
+                </ul>
+              </article>
+            </aside>
+          </section>
+        </div>
+      </div>
+
+      <section class="floating-panel" id="floatingPanel" aria-live="polite">
+        <div class="floating-panel__header">
+          <strong id="panelTitle">Painel do lobby</strong>
+          <button class="floating-panel__close" id="closePanel" type="button" aria-label="Fechar painel">×</button>
+        </div>
+        <p id="panelText">
+          Selecione uma ação para visualizar mensagens de interface simuladas sem depender de backend.
+        </p>
+      </section>
+    </section>
   </main>
 
+  <footer class="footer">
+    <p>Protótipo estático em HTML, CSS e JavaScript vanilla, pronto para evoluir no GitHub Pages.</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/three@0.183.0/build/three.min.js"></script>
   <script src="./script.js"></script>
 </body>
 </html>
